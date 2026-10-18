@@ -100,10 +100,8 @@ async function loadCatalog() {
 }
 function render() {
  const q = document.getElementById('search').value.trim().toLowerCase();
- const cat = document.getElementById('category').value;
  const sort = document.getElementById('sort').value;
- let list = products.filter(p => (p.name+' '+p.brand+' '+p.description).toLowerCase().includes(q) && (!cat || p.category===cat));
- if(sort==='low') list.sort((a,b)=>a.pricePerMl-b.pricePerMl);
+let list = products.filter(p => (p.name+' '+p.brand+' '+p.description).toLowerCase().includes(q)); if(sort==='low') list.sort((a,b)=>a.pricePerMl-b.pricePerMl);
  if(sort==='high') list.sort((a,b)=>b.pricePerMl-a.pricePerMl);
  if(sort==='az') list.sort((a,b)=>a.name.localeCompare(b.name,'ru'));
  const root = document.getElementById('products');
@@ -124,7 +122,7 @@ function render() {
   info.append(brand,name,desc,price,stock,buy); card.append(img,info); root.append(card);
  });
 }
-['search','category','sort'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',render));
+['search','category','sort'].forEach(id=>['search','sort'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',render));.getElementById(id).addEventListener(id==='search'?'input':'change',render));
 loadCatalog();
 </script>
 </body>
