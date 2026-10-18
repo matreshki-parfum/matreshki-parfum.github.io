@@ -122,8 +122,12 @@ let list = products.filter(p => (p.name+' '+p.brand+' '+p.description).toLowerCa
   info.append(brand,name,desc,price,stock,buy); card.append(img,info); root.append(card);
  });
 }
-['search','category','sort'].forEach(id=>['search','sort'].forEach(id=>document.getElementById(id).addEventListener(id==='['search','sort'].forEach(id=>document.getElementById(id).addEventListener(id==='search'?'input':'change',render));'?'input':'change',render));.getElementById(id).addEventListener(id==='search'?'input':'change',render));
-loadCatalog();
+['search','sort'].forEach(id => {
+  document.getElementById(id).addEventListener(
+    id === 'search' ? 'input' : 'change',
+    render
+  );
+});loadCatalog();
 </script>
 </body>
 </html>
