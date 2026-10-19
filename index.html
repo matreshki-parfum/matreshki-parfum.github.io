@@ -44,7 +44,7 @@ footer{text-align:center;padding:25px 10px;color:var(--muted);font-size:11px;let
   <input id="search" placeholder="⌕  Поиск аромата или бренда">
   <div class="filters">
     <select id="sort">
-      <option value="default">Сначала популярные</option>
+      <option value="default">Без сортировки</option>
       <option value="low">Сначала дешевле</option>
       <option value="high">Сначала дороже</option>
       <option value="az">По названию</option>
@@ -74,7 +74,7 @@ function normalizeProduct(p) {
     brand: String(p.brand || 'Матрешки Парфюм'),
     name: String(p.name || 'Без названия'),
     category: String(p.category || ''),
-    description: String(p.description || 'Нишевый аромат'),
+    description: String(p.description || ''),
     pricePerMl: Number.isFinite(perMl) && perMl > 0 ? perMl : (legacy ? Number(legacy[2]) / Number(legacy[1].replace(',', '.')) : 0),
     stockMl: Number(p.stock_ml || 0),
     legacyVolumes: String(p.volumes || ''),
