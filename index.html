@@ -117,7 +117,12 @@ let list = products.filter(p => (p.name+' '+p.brand+' '+p.description).toLowerCa
   const price=document.createElement('div'); price.className='price'; price.textContent=p.pricePerMl>0 ? p.pricePerMl.toLocaleString('ru-RU')+' ₽ / мл' : 'Цена уточняется';
   const stock=document.createElement('div'); stock.className='desc'; stock.textContent=p.stockMl>0 ? 'В наличии: '+p.stockMl.toLocaleString('ru-RU')+' мл' : (p.legacyVolumes || 'Остаток уточняйте у администратора');
   const buy=document.createElement('button'); buy.className='buy'; buy.textContent='Уточнить и купить';
-  buy.addEventListener('click',()=>window.open(managerUrl(p.manager),'_blank','noopener'));
+  buy.addEventListener('click',()=>{
+  const message = `Здравствуйте! Хочу уточнить наличие аромата ${p.brand} — ${p.name} и оформить заказ.`;
+  const url = managerUrl(p.manager);
+  const separator = url.includes('?') ? '&' : '?';
+  window.open(url + separator + 'text=' + encodeURIComponent(message), '_blank', 'noopener');
+});
   info.append(brand,name,desc,price,stock,buy); card.append(img,info); root.append(card);
  });
 }
