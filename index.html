@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -316,7 +316,18 @@ function normalizeProduct(p, index) {
     p.bottle_remainder === true ||
     String(p.bottle_remainder).toLowerCase() === 'true';
 
-  const minOrder = Number(p.min_order_ml);
+  // Минимальный заказ: принимаем только корректное положительное число.
+  // Пустые, нулевые и некорректные значения не показываем.
+  const rawMinOrder = p.min_order_ml;
+  const minOrderText = String(rawMinOrder ?? '').trim();
+  const minOrderValue = minOrderText
+    ? Number(minOrderText.replace(',', '.'))
+    : NaN;
+
+  const minOrder =
+    Number.isFinite(minOrderValue) && minOrderValue > 0
+      ? minOrderValue
+      : null;
 
   return {
     id: p.id,
@@ -337,10 +348,7 @@ function normalizeProduct(p, index) {
 
     stockMl: Number(p.stock_ml || 0),
 
-    minOrderMl:
-      Number.isFinite(minOrder) && minOrder > 0
-        ? minOrder
-        : 1,
+    minOrderMl: minOrder,
 
     bottleRemainder: bottleRemainder,
 
@@ -519,12 +527,17 @@ function render() {
             'Остаток уточняйте у администратора'
           );
 
-    const minOrder = document.createElement('div');
-    minOrder.className = 'product-extra';
-    minOrder.textContent =
-      'Минимальный заказ: ' +
-      p.minOrderMl.toLocaleString('ru-RU') +
-      ' мл';
+    // Создаём строку минимального заказа только при валидном значении.
+    let minOrder = null;
+
+    if (p.minOrderMl !== null) {
+      minOrder = document.createElement('div');
+      minOrder.className = 'product-extra';
+      minOrder.textContent =
+        'Минимальный заказ: ' +
+        p.minOrderMl.toLocaleString('ru-RU') +
+        ' мл';
+    }
 
     const remainder = document.createElement('div');
     remainder.className = 'product-extra remainder';
@@ -552,17 +565,23 @@ function render() {
     });
 
     info.append(
-  brand,
-  name,
-  desc,
-  price,
-  atomizer,
-  stock,
-  minOrder,
-  city,
-  remainder,
-  buy
-);
+      brand,
+      name,
+      desc,
+      price,
+      atomizer,
+      stock
+    );
+
+    if (minOrder) {
+      info.append(minOrder);
+    }
+
+    info.append(
+      city,
+      remainder,
+      buy
+    );
 
     card.append(img, info);
     root.append(card);
@@ -577,5 +596,6 @@ loadCatalog();
 
 </body>
 </html>
+```
 
 <!-- refresh pages -->
