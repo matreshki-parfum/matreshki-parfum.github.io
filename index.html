@@ -551,18 +551,19 @@ function render() {
     buy.textContent = 'Уточнить и купить';
 
     buy.addEventListener('click', () => {
-      const message =
-        `Здравствуйте! Хочу уточнить наличие аромата ${p.brand} — ${p.name} и оформить заказ.`;
+  const message =
+    `Здравствуйте! Хочу уточнить наличие аромата ${p.brand} — ${p.name} и оформить заказ.`;
 
-      const url = managerUrl(p.manager);
-      const separator = url.includes('?') ? '&' : '?';
+  const username = String(p.manager || 'ciaonatalie')
+    .replace(/^https?:\/\/t\.me\//i, '')
+    .replace(/^@/, '')
+    .replace(/\/$/, '');
 
-      window.open(
-        url + separator + 'text=' + encodeURIComponent(message),
-        '_blank',
-        'noopener'
-      );
-    });
+  const url =
+    `https://t.me/${username}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, '_blank');
+});
 
     info.append(
       brand,
@@ -596,6 +597,6 @@ loadCatalog();
 
 </body>
 </html>
-```
+
 
 <!-- refresh pages -->
